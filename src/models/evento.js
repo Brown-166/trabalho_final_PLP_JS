@@ -6,7 +6,7 @@ class Evento {
     constructor(nomeDoEvento, dataDoEvento, localDoEvento, maximoDeIngressos, organizadorDoEvento) {
         this.idEvento = Evento.proximoId++;
         this.nome = nomeDoEvento;
-        this.data = dataDoEvento;
+        this.data = new Date(dataDoEvento);
         this.local = localDoEvento;
         this.listaDeIngressos = [];
         this.maximoDeIngressos = maximoDeIngressos;
