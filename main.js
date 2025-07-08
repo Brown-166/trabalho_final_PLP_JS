@@ -22,7 +22,14 @@ function criarOrganizador() {
         if (!Pessoa.validarCPF(cpf)) {
             console.log('CPF inválido. Tente novamente.');
         }
-    } while (!Pessoa.validarCPF(cpf));
+        else if (cpfsUtilizados.has(cpf)) {
+            console.log('CPF já cadastrado. Tente novamente.');
+        }
+        else {
+            cpfsUtilizados.add(cpf);
+            break
+        }
+    } while (true);
     
     nome = readline.question('Nome completo: ');
     sexo = readline.question('Sexo: ');
@@ -50,11 +57,18 @@ function criarParticipante() {
     let sexo;
 
     do {
-        cpf = readline.question('CPF do participante: ');
+        cpf = readline.question('CPF do organizador: ');
         if (!Pessoa.validarCPF(cpf)) {
             console.log('CPF inválido. Tente novamente.');
         }
-    } while (!Pessoa.validarCPF(cpf));
+        else if (cpfsUtilizados.has(cpf)) {
+            console.log('CPF já cadastrado. Tente novamente.');
+        }
+        else {
+            cpfsUtilizados.add(cpf);
+            break
+        }
+    } while (true);
     nome = readline.question('Nome completo: ');
     sexo = readline.question('Sexo: ');
 
@@ -83,10 +97,28 @@ function criarEvento() {
         console.log('===============================')
         return;
     }
+    
     const orgIndex = readline.questionInt('Escolha o organizador pelo índice: ' + 
         organizadores.map((o, i) => `\n${i} - ${o.nomeCompleto}: `).join(''));
     const nome = readline.question('Nome do evento: ');
-    const data = readline.question('Data do evento: ');
+    let data;
+    do {
+        data = readline.question('Data do evento (formato YYYY-MM-DD): ');
+        // Expressão regular para validar o formato
+        const regex = /^\d{4}-\d{2}-\d{2}$/;
+        if (!regex.test(data)) {
+            console.log('Formato de data inválido. Use YYYY-MM-DD.');
+            data = null;
+            continue;
+        }
+        // Verifica se a data é válida
+        const dataObj = new Date(data);
+        if (isNaN(dataObj.getTime())) {
+            console.log('Data inválida. Tente novamente.');
+            data = null;
+        }
+    } while (!data);
+
     const local = readline.question('Local do evento: ');
     const maxIngressos = readline.questionInt('Máximo de ingressos: ');
     const preco = readline.questionFloat('Preço do ingresso: ');
