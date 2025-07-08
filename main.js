@@ -9,6 +9,7 @@ const participantes = [];
 const eventos = [];
 const ingressos = [];
 const precosPadraoPorEvento = new Map();
+const cpfsUtilizados = new Set();
 
 // Função para criar organizador
 function criarOrganizador() {
